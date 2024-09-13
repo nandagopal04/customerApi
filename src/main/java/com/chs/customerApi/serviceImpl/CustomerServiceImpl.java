@@ -27,14 +27,14 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	@Transactional
 	@Override
-	public CustomerDto saveCustomerDto(CustomerDto customerDto) {
+	public CustomerDto saveCustomer(CustomerDto customerDto) {
 		Customer customer = customerConverter.convertCustomerDtoToCustomer(customerDto);
 		customer = customerRepository.save(customer);
 		return customerConverter.convertCustomerToCustomerDto(customer);
 	}
 
 	@Override
-	public CustomerDto findCustomerDtoById(Long id) throws InvalidCustomerIdException {
+	public CustomerDto findCustomerById(Long id) throws InvalidCustomerIdException {
 		Optional<Customer> optCustomer = customerRepository.findById(id);
 		if(!optCustomer.isPresent()) {
 			throw new InvalidCustomerIdException("Customer ID: "+id+" is invalid. Please provide a valid ID");
@@ -44,8 +44,8 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Transactional
 	@Override
-	public CustomerDto editCustomerDto(CustomerDto customerDto) throws InvalidCustomerIdException {
-		findCustomerDtoById(customerDto.getId());
+	public CustomerDto editCustomer(CustomerDto customerDto) throws InvalidCustomerIdException {
+		findCustomerById(customerDto.getId());
 		Customer customer = customerConverter.convertCustomerDtoToCustomer(customerDto);
 		customer = customerRepository.save(customer);
 		return customerConverter.convertCustomerToCustomerDto(customer);
@@ -53,8 +53,8 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Transactional
 	@Override
-	public CustomerDto deleteCustomerDto(Long id) throws InvalidCustomerIdException {
-		CustomerDto customerDto = findCustomerDtoById(id);
+	public CustomerDto deleteCustomer(Long id) throws InvalidCustomerIdException {
+		CustomerDto customerDto = findCustomerById(id);
 		Customer customer = customerConverter.convertCustomerDtoToCustomer(customerDto);
 		customerRepository.delete(customer);
 		return customerConverter.convertCustomerToCustomerDto(customer);

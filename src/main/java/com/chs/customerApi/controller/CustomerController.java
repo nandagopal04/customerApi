@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -14,13 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.chs.customerApi.dto.CustomerDto;
 import com.chs.customerApi.exception.InvalidCustomerIdException;
 import com.chs.customerApi.serviceImpl.CustomerServiceImpl;
 
-@Controller
-@RequestMapping("/customer")
+@RestController
+@RequestMapping("/customers")
 public class CustomerController {
 	
 	@Autowired
@@ -28,13 +28,13 @@ public class CustomerController {
 
 	@PostMapping("/create")
 	public ResponseEntity<CustomerDto> saveCutomerDto(@RequestBody CustomerDto customerDto){
-		CustomerDto savedCustomerDto = customerServiceImple.saveCustomerDto(customerDto);
+		CustomerDto savedCustomerDto = customerServiceImple.saveCustomer(customerDto);
 		return new ResponseEntity<CustomerDto>(savedCustomerDto, HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/get/{id}")
 	public ResponseEntity<CustomerDto> findCustomerDto(@PathVariable Long id) throws InvalidCustomerIdException{
-		CustomerDto customerDto = customerServiceImple.findCustomerDtoById(id);
+		CustomerDto customerDto = customerServiceImple.findCustomerById(id);
 		return new ResponseEntity<CustomerDto>(customerDto, HttpStatus.OK);
 	}
 	
@@ -46,13 +46,13 @@ public class CustomerController {
 	
 	@PutMapping("/update")
 	public ResponseEntity<CustomerDto> editCustomerDto(@RequestBody CustomerDto customerDto) throws InvalidCustomerIdException{
-		CustomerDto editedCustomerDto = customerServiceImple.editCustomerDto(customerDto);
+		CustomerDto editedCustomerDto = customerServiceImple.editCustomer(customerDto);
 		return new ResponseEntity<CustomerDto>(editedCustomerDto, HttpStatus.OK);
 	}
 	
 	@PatchMapping("/edit")
 	public ResponseEntity<CustomerDto> patchCustomerDto(@RequestBody CustomerDto customerDto) throws InvalidCustomerIdException{
-		CustomerDto existingCustomerDto = customerServiceImple.findCustomerDtoById(customerDto.getId());
+		CustomerDto existingCustomerDto = customerServiceImple.findCustomerById(customerDto.getId());
 		if(customerDto.getFirstName() != null) {
 			existingCustomerDto.setFirstName(customerDto.getFirstName());
 		}
@@ -65,13 +65,13 @@ public class CustomerController {
 		if(customerDto.getEmail() != null) {
 			existingCustomerDto.setEmail(customerDto.getEmail());
 		}
-		existingCustomerDto = customerServiceImple.editCustomerDto(existingCustomerDto);
+		existingCustomerDto = customerServiceImple.editCustomer(existingCustomerDto);
 		return new ResponseEntity<CustomerDto>(existingCustomerDto, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<CustomerDto> deleteCustomerDto(@PathVariable Long id) throws InvalidCustomerIdException{
-		CustomerDto customerDto = customerServiceImple.deleteCustomerDto(id);
+		CustomerDto customerDto = customerServiceImple.deleteCustomer(id);
 		return new ResponseEntity<CustomerDto>(customerDto, HttpStatus.OK);
 	}
 	
