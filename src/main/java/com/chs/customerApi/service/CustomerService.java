@@ -3,6 +3,7 @@ package com.chs.customerApi.service;
 import java.util.List;
 
 import com.chs.customerApi.dto.CustomerDto;
+import com.chs.customerApi.exception.InvalidCustomerDetalisException;
 import com.chs.customerApi.exception.InvalidCustomerIdException;
 
 public interface CustomerService {
@@ -12,4 +13,5 @@ public interface CustomerService {
 	CustomerDto editCustomer(CustomerDto customerDto) throws InvalidCustomerIdException;
 	CustomerDto deleteCustomer(Long id) throws InvalidCustomerIdException;
 	List<CustomerDto> getAllCustomers();
+	CustomerDto findCustomerByFullName(String firstName, String fullName) throws InvalidCustomerDetalisException;
 }

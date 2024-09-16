@@ -13,14 +13,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chs.customerApi.dto.CustomerDto;
+import com.chs.customerApi.exception.InvalidCustomerDetalisException;
 import com.chs.customerApi.exception.InvalidCustomerIdException;
 import com.chs.customerApi.serviceImpl.CustomerServiceImpl;
 
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("/customer")
 public class CustomerController {
 	
 	@Autowired
@@ -67,6 +69,12 @@ public class CustomerController {
 		}
 		existingCustomerDto = customerServiceImple.editCustomer(existingCustomerDto);
 		return new ResponseEntity<CustomerDto>(existingCustomerDto, HttpStatus.OK);
+	}
+	
+	@GetMapping("/get")
+	public ResponseEntity<CustomerDto> findCustomerByName(@RequestParam String firstName, @RequestParam String lastName) throws InvalidCustomerDetalisException{
+		CustomerDto customerDto = customerServiceImple.findCustomerByFullName(firstName, lastName);
+		return new ResponseEntity<CustomerDto>(customerDto, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/delete/{id}")

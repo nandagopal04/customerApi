@@ -22,16 +22,16 @@ public class Customer implements Serializable{
 	private static final long serialVersionUID = 8723719386300015223L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+	private Long id;
 	@Column(name="first_name")
-	String firstName;
+	private String firstName;
 	@Column(name="last_name")
-	String lastName;
+	private String lastName;
 	@Column(name="phone_number")
-	Long phoneNumber;
+	private Long phoneNumber;
 	String email;
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-	List<Order> orders;
+	private List<Order> orders;
 	
 	public Customer(String firstName, String lastName, Long phoneNumber, String email) {
 		super();

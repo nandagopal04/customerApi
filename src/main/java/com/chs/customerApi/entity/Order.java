@@ -29,13 +29,13 @@ public class Order implements Serializable{
 	private static final long serialVersionUID = -4496542924099521270L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+	private Long id;
 	@Column(name="order_name")
-	String orderName;
-	Double cost;
+	private String orderName;
+	private Double cost;
 	@ManyToOne
 	@JoinColumn(name="customer_id")
 	@JsonIgnore
-	Customer customer;
+	private Customer customer;
 
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.chs.customerApi.converter.CustomerConverter;
 import com.chs.customerApi.dto.CustomerDto;
 import com.chs.customerApi.entity.Customer;
+import com.chs.customerApi.exception.InvalidCustomerDetalisException;
 import com.chs.customerApi.exception.InvalidCustomerIdException;
 import com.chs.customerApi.repository.CustomerRepository;
 import com.chs.customerApi.service.CustomerService;
@@ -67,6 +68,17 @@ public class CustomerServiceImpl implements CustomerService{
 				.stream()
 				.map(customerConverter::convertCustomerToCustomerDto)
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public CustomerDto findCustomerByFullName(String firstName, String lastName) throws InvalidCustomerDetalisException {
+		List<Customer> allCustomers = customerRepository.findAll();
+		for(Customer customer: allCustomers) {
+			if(customer.getFirstName().equals(firstName) && customer.getLastName().equals(lastName)) {
+				return customerConverter.convertCustomerToCustomerDto(customer);
+			}
+		}
+		throw new InvalidCustomerDetalisException("Invalid Customer name "+firstName+" "+lastName);
 	}
 	
 }
